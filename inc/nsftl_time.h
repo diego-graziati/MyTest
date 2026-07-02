@@ -7,6 +7,15 @@
 extern "C" {
 #endif
 
+/**
+ * @author Diego Graziati
+ * 
+ * @brief 
+ * 
+ * @param[in] clock_time 
+ * 
+ * @retval nsftl_status_t 
+ */
 nsftl_status_t nsftl_getclock_time(nsftl_time_t clock_time);
 
 #ifdef __cplusplus

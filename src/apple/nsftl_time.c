@@ -9,11 +9,13 @@
  */
 nsftl_status_t nsftl_getclock_time(nsftl_time_t clock_time)
 {
+    /** Guards */
     if (clock_time == NULL)
     {
         return NSFTL_UNABLE_TO_RETRIEVE_CLOCK_TIME;
     }
 
+    /** Actual logic */
     uint64_t actual_time = clock_gettime_nsec_np(CLOCK_UPTIME_RAW);
 
     if(actual_time == 0)

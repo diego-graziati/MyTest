@@ -269,7 +269,7 @@ void Test::subscribe_multiple_test_units_to_multiple_categories(nsftl_test_repor
 
     for (uint32_t i = 0U; i < test::MAX_TEST_CATEGORIES_ARRAY_LENGTH; i++)
     {
-        nsftl_test_unit_t test_unit[test::MAX_TEST_CATEGORIES_ARRAY_LENGTH] = {0};
+        nsftl_test_unit_t test_unit[test::MAX_TEST_UNITS_ARRAY_LENGTH] = {0};
         char temp_test_category_name[NSFTL_TEST_CATEGORY_MAX_NAME_LENGTH] = {0};
         std::snprintf(temp_test_category_name, std::string("Test Category n°: ").length() + 2, "Test Category n°: %u", i);
         status = nsftl_init_test_category(&test_category[i], temp_test_category_name);

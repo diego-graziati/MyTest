@@ -8,20 +8,32 @@ extern "C" {
 #endif
 
 /**
- * @brief 
+ * @author Diego Graziati
  * 
- * @param report 
- * @param start_time
- * @return nsftl_status_t 
+ * @brief This function starts the test report's timer.
+ * 
+ * @param[in] report This is the target test report. At the end it will have a new start_time value
+ * 
+ * @retval NSFTL_TEST_REPORT_NOT_INITIALIZED If parameter report hasn't been initialized before.
+ * @retval NSFTL_TEST_REPORT_START_TIME_NOT_INITIALIZED If parameter report's start_time member hasn't been initialied before.
+ * @retval NSFTL_UNABLE_TO_RETRIEVE_CLOCK_TIME If parameter report's hasn't been initialized before. Normally, if this condition is true the value returned should be NSFTL_REST_REPORT_NOT_INITIALIZED!
+ * @retval NSFTL_TEST_REPORT_FAILED_TO_GET_CLOCK_TIME If the internal function call "nsftl_getclock_time" fails to retrieve the actual clock time through the OS's API.
+ * @retval NSFTL_SUCCESS Everything went right.
  */
 nsftl_status_t nsftl_start_report_timer (nsftl_test_report_t report);
 
 /**
- * @brief 
+ * @author Diego Graziati
  * 
- * @param report 
- * @param end_time 
- * @return nsftl_status_t 
+ * @brief This function stops the test report's timer.
+ * 
+ * @param[in] report This is the target test report. At the end it will have a new end_time value
+ * 
+ * @retval NSFTL_TEST_REPORT_NOT_INITIALIZED If parameter report hasn't been initialized before.
+ * @retval NSFTL_TEST_REPORT_START_TIME_NOT_INITIALIZED If parameter report's end_time member hasn't been initialied before.
+ * @retval NSFTL_UNABLE_TO_RETRIEVE_CLOCK_TIME If parameter report hasn't been initialized before. Normally, if this condition is true the value returned should be NSFTL_REST_REPORT_NOT_INITIALIZED!
+ * @retval NSFTL_TEST_REPORT_FAILED_TO_GET_CLOCK_TIME If the internal function call "nsftl_getclock_time" fails to retrieve the actual clock time through the OS's API.
+ * @retval NSFTL_SUCCESS Everything went right.
  */
 nsftl_status_t nsftl_stop_report_timer (nsftl_test_report_t report);
 
@@ -30,7 +42,7 @@ nsftl_status_t nsftl_stop_report_timer (nsftl_test_report_t report);
  * 
  * @brief This function handles all memory related matters when writing a report, returning it directly to you.
  * 
- * @param[out] report It is the report you want to write. It should only be passed as NULL, or otherwise you'll experience memory leakeage.
+ * @param[in] report It is the report you want to write. It should already be initialized.
  * @param[in] message It is the sentence that needs to be written inside the report.
  * @param[in] message_length It is the report's message length. It must not be bigger than or equal to MYTEST_TEST_REPORT_MAX_MESSAGE_LENGTH.
  * @param[in] status The test return status after its execution.

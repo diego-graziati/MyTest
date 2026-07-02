@@ -67,7 +67,7 @@ else()
 endif()
 
 if(BUILD_TESTING)
-    message(STATUS "Building Unit Tests and documentation...")
+    message(STATUS "Building Unit Tests...")
 
     #Library unit test creation
     add_executable(test_main

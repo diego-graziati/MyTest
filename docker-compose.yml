@@ -6,6 +6,16 @@ services:
       target: base_test # Si ferma allo stage 1 (niente Doxygen installato inutilmente)
     volumes:
       - .:/workspace # Monta la tua cartella così vedi i report dei test localmente
+  
+  run-tests-prerelease:
+    build:
+      context: .
+      target: prerelease_test
+    volumes:
+      - .:/workspace
+    cap_add:
+      - SYS_PTRACE
+
 
   # Servizio 2: Genera la documentazione e la salva sul tuo PC
   generate-docs:

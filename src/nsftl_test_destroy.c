@@ -6,6 +6,7 @@
  * @brief 
  * 
  * @param test_category 
+ * @todo Make method atomic
  */
 void nsftl_destroy_test_category (nsftl_test_category_t* test_category)
 {
