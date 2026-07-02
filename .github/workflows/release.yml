@@ -5,7 +5,7 @@ on:
 
 jobs:
   Quality-Control:
-    uses: ./.github/workflows/ci.yml
+    uses: ./.github/workflows/prerelease.yml
 
   Library-Compilation:
     needs: Quality-Control
