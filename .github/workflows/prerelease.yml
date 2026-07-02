@@ -1,0 +1,26 @@
+name: Production PreRealease Tests
+
+on:
+  workflow_dispatch:
+
+jobs:
+  Ci-Quality-Controls:
+    uses: ./.github/workflows/ci.yml
+
+  build-and-test:
+    needs: Ci-Quality-Controls
+    name: Prerelease tests
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest
+            use_docker: true
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Run Prerelease Tests inside Docker
+      if: matrix.use_docker == true
+      run: docker compose run --rm run-tests-prerelease
