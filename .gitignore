@@ -1,3 +1,7 @@
 build/
 docs/
 build_docker/
+Testing/
+build_base/
+build_docs/
+build_prerelease/

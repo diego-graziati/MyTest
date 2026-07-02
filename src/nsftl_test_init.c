@@ -14,6 +14,18 @@
  */
 nsftl_status_t nsftl_init_test_category (nsftl_test_category_t* test_category, const char* test_category_name)
 {
+    /** Guards */
+    if((*test_category) != NULL)
+    {
+        nsftl_destroy_test_category(test_category);
+    }
+
+    if(test_category_name == NULL)
+    {
+        return NSFTL_NULL_TEST_CATEGORY_NAME;
+    }
+
+    /** Actual logic */
     *test_category = (nsftl_test_category_t)malloc(sizeof(**test_category));
     if (*test_category == NULL)
     {
@@ -23,16 +35,14 @@ nsftl_status_t nsftl_init_test_category (nsftl_test_category_t* test_category, c
     nsftl_test_unit_t test_units = (nsftl_test_unit_t) calloc(NSFTL_DEFAULT_TESTS_ARRAY_SIZE, sizeof(*test_units));
     if (test_units == NULL)
     {
-        free(*test_category);
-        (*test_category) = NULL;
+        nsftl_destroy_test_category(test_category);
         return NSFTL_MEMORY_ALLOCATION_FAILED_MEMORY_INSUFFICIENT;
     }
 
     nsftl_test_report_t test_reports = (nsftl_test_report_t) calloc(NSFTL_DEFAULT_TESTS_ARRAY_SIZE, sizeof(*test_reports));
     if (test_reports == NULL)
     {
-        free(*test_category);
-        (*test_category) = NULL;
+        nsftl_destroy_test_category(test_category);
         free(test_units);
         test_units = NULL;
         return NSFTL_MEMORY_ALLOCATION_FAILED_MEMORY_INSUFFICIENT;
@@ -62,6 +72,18 @@ nsftl_status_t nsftl_init_test_category (nsftl_test_category_t* test_category, c
  */
 nsftl_status_t nsftl_init_test_unit (nsftl_test_unit_t* test_unit, const char* test_unit_name)
 {
+    /** Guards */
+    if((*test_unit) != NULL)
+    {
+        nsftl_destroy_test_unit(test_unit);
+    }
+
+    if((test_unit_name) == NULL)
+    {
+        return NSFTL_NULL_TEST_UNIT_NAME;
+    }
+
+    /** Actual logic */
     *test_unit = (nsftl_test_unit_t) malloc(sizeof(**test_unit));
 
     if (*test_unit == NULL)
@@ -88,11 +110,13 @@ nsftl_status_t nsftl_init_test_unit (nsftl_test_unit_t* test_unit, const char* t
  */
 nsftl_status_t nsftl_init_test_report (nsftl_test_report_t* report)
 {
+    /** Guards */
     if((*report) != NULL)
     {
         nsftl_destroy_test_report(report);
     }
 
+    /** Actual logic */
     *report = (nsftl_test_report_t) malloc(sizeof(**report));
     if ((*report) == NULL)
     {

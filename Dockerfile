@@ -11,15 +11,21 @@ RUN apt-get update && apt-get install -y \
     build-essential \
     cmake \
     cppcheck \
-    valgrind \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /workspace
 COPY . .
 
 # Comando di default per lo stage di test
-CMD ["sh", "-c", "cmake -B build_docker -DCMAKE_BUILD_TYPE=Debug -DBUILD_TESTING=ON -DENABLE_SANITIZERS=ON && cmake --build build_docker && cd build_docker && ctest --output-on-failure"]
+CMD ["sh", "-c", "cmake -B build_base -DCMAKE_BUILD_TYPE=Debug -DBUILD_TESTING=ON -DENABLE_SANITIZERS=ON && cmake --build build_base && cd build_base && ctest --verbose --output-on-failure"]
 
+FROM base_test AS prerelease_test
+
+RUN apt-get update && apt-get install -y \
+    valgrind \
+    && rm -rf /var/lib/apt/lists/*
+
+CMD ["sh", "-c", "cmake -B build_prerelease -DCMAKE_BUILD_TYPE=Debug -DBUILD_TESTING=ON -DENABLE_SANITIZERS=OFF && cmake --build build_prerelease && cd build_prerelease && ctest -T memcheck --verbose --output-on-failure --no-compress-output"]
 
 # ==========================================
 # STAGE 2: Generazione Documentazione (Completa)
@@ -33,4 +39,4 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Comando di default per lo stage di documentazione
-CMD ["sh", "-c", "cmake -B build_docker -DBUILD_DOCS=ON && cmake --build build_docker --target api_docs && cmake --build build_docker --target complete_docs"]
+CMD ["sh", "-c", "cmake -B build_docs -DBUILD_DOCS=ON && cmake --build build_docs --target api_docs && cmake --build build_docs --target complete_docs"]

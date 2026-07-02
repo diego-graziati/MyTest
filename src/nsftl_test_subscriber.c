@@ -13,6 +13,28 @@
  */
 nsftl_status_t nsftl_subscribe_test_unit (nsftl_test_category_t test_category, nsftl_test_unit_t* test_unit)
 {
+    /** Guards */
+    if (test_category == NULL)
+    {
+        return NSFTL_TEST_CATEGORY_NOT_INITIALIZED;
+    }
+
+    if (test_category->tests == NULL)
+    {
+        return NSFTL_TEST_CATEGORY_TEST_UNIT_ARRAY_NOT_INITIALIZED;
+    }
+
+    if (test_category->reports == NULL)
+    {
+        return NSFTL_TEST_CATEGORY_REPORT_ARRAY_NOT_INITIALIZED;
+    }
+
+    if ((*test_unit) == NULL)
+    {
+        return NSFTL_TEST_UNIT_NOT_INITIALIZED;
+    }
+
+    /** Actual logic */
     if (test_category->size >= test_category->capacity)
     {
         nsftl_capacity_t new_capacity = test_category->capacity + 10U;

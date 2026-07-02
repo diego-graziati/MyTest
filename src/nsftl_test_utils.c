@@ -9,6 +9,7 @@
 
 nsftl_status_t nsftl_start_report_timer (nsftl_test_report_t report)
 {
+    /** Guards */
     if (report == NULL)
     {
         return NSFTL_TEST_REPORT_NOT_INITIALIZED;
@@ -19,16 +20,13 @@ nsftl_status_t nsftl_start_report_timer (nsftl_test_report_t report)
         return NSFTL_TEST_REPORT_START_TIME_NOT_INITIALIZED;
     }
 
-    if (nsftl_getclock_time(report->start_time) != NSFTL_SUCCESS)
-    {
-        return NSFTL_TEST_REPORT_FAILED_TO_GET_CLOCK_TIME;
-    }
-
-    return NSFTL_SUCCESS;
+    /** Actual logic */
+    return nsftl_getclock_time(report->start_time);
 }
 
 nsftl_status_t nsftl_stop_report_timer (nsftl_test_report_t report)
 {
+    /** Guards */
     if (report == NULL)
     {
         return NSFTL_TEST_REPORT_NOT_INITIALIZED;
@@ -39,12 +37,8 @@ nsftl_status_t nsftl_stop_report_timer (nsftl_test_report_t report)
         return NSFTL_TEST_REPORT_END_TIME_NOT_INITIALIZED;
     }
 
-    if (nsftl_getclock_time(report->end_time) != NSFTL_SUCCESS)
-    {
-        return NSFTL_TEST_REPORT_FAILED_TO_GET_CLOCK_TIME;
-    }
-
-    return NSFTL_SUCCESS;
+    /** Actual logic */
+    return nsftl_getclock_time(report->end_time);
 }
 
 /**
@@ -58,9 +52,15 @@ nsftl_status_t nsftl_stop_report_timer (nsftl_test_report_t report)
  */
 nsftl_status_t nsftl_write_report (nsftl_test_report_t* report, const char* message,  size_t message_length, nsftl_status_t status)
 {
+    /** Guards */
     if ((*report) == NULL)
     {
         return NSFTL_TEST_REPORT_NOT_INITIALIZED;
+    }
+
+    if (message == NULL)
+    {
+        return NSFTL_NULL_TEST_REPORT_MESSAGE;
     }
 
     if (message_length >= NSFTL_TEST_REPORT_MAX_MESSAGE_LENGTH)
@@ -74,6 +74,7 @@ nsftl_status_t nsftl_write_report (nsftl_test_report_t* report, const char* mess
         (*report)->message = NULL;
     }
 
+    /** Actual logic */
     (*report)->message = (const char*) malloc((message_length+1) * sizeof(const char));
     if((*report)->message == NULL)
     {
@@ -100,11 +101,13 @@ nsftl_status_t nsftl_write_report (nsftl_test_report_t* report, const char* mess
  */
 nsftl_status_t nsftl_submit_test_to_test_unit (nsftl_test_unit_t test_unit, void (*test_callback_fn)(nsftl_test_report_t* test_report, nsftl_index_t index))
 {
+    /** Guards */
     if (test_unit == NULL)
     {
         return NSFTL_TEST_UNIT_NOT_INITIALIZED;
     }
 
+    /** Actual logic */
     test_unit->test_callback_fn = test_callback_fn;
     if (test_unit->test_callback_fn == NULL)
     {

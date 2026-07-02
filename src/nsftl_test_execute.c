@@ -14,6 +14,7 @@
  */
 nsftl_status_t nsftl_execute_category_test (nsftl_test_category_t test_category, nsftl_index_t index)
 {
+    /** Guards */
     if (test_category == NULL)
     {
         return NSFTL_TEST_CATEGORY_NOT_INITIALIZED;
@@ -29,14 +30,15 @@ nsftl_status_t nsftl_execute_category_test (nsftl_test_category_t test_category,
         return NSFTL_TEST_INDEX_BIGGER_THAN_CATEGORY_SIZE;
     }
 
-    nsftl_test_report_t test_report = NULL;
-    test_category->tests[index].test_callback_fn(&test_report, index);
-
     if (test_category->reports[index].message != NULL)
     {
         free((void*) test_category->reports[index].message);
         test_category->reports[index].message = NULL;
     }
+
+    /** Actual logic */
+    nsftl_test_report_t test_report = NULL;
+    test_category->tests[index].test_callback_fn(&test_report, index);
 
     if (test_report == NULL || test_report->message == NULL)
     {
